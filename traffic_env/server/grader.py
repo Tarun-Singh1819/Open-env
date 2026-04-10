@@ -45,14 +45,17 @@ class TrafficGrader:
         self._heuristic_cluster = heuristic_cluster
 
     def grade(self) -> float:
-        """Return final grade in [0.0, 1.0]."""
+        """Return final grade in (0, 1) — strictly between 0 and 1."""
         if self._task_id == "single_intersection":
-            return self._grade_task1()
+            raw = self._grade_task1()
         elif self._task_id == "corridor_green_wave":
-            return self._grade_task2()
+            raw = self._grade_task2()
         elif self._task_id == "grid_incident":
-            return self._grade_task3()
-        return 0.0
+            raw = self._grade_task3()
+        else:
+            raw = 0.01
+        # Strictly between 0 and 1 — never exactly 0.0 or 1.0
+        return clamp(raw, 0.01, 0.99)
 
     # ─────────────────────────────────────────
     # Task 1: Pure delay comparison
