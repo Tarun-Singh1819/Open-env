@@ -1,0 +1,60 @@
+spec_version: 1
+name: traffic-control-env
+version: "1.0.0"
+description: >
+  Autonomous Traffic Signal Control with Inter-Agent Coordination Protocol.
+  An LLM agent acts as a traffic management controller for a cluster of
+  intersections, optimizing signal timing while coordinating with neighboring
+  agents through a natural-language message-passing protocol.
+
+author: "Tarun Singh"
+tags:
+  - openenv
+  - traffic-control
+  - multi-agent-coordination
+  - reinforcement-learning
+  - real-world
+
+type: container
+runtime:
+  image: "registry.hf.space/tarunts19-traffic-control-env:latest"
+app: "uvicorn traffic_env.server.app:app --host 0.0.0.0 --port 7860"
+port: 7860
+
+action_type: "traffic_env.models.TrafficAction"
+observation_type: "traffic_env.models.TrafficObservation"
+state_type: "traffic_env.models.TrafficState"
+
+tasks:
+  - id: "single_intersection"
+    name: "Single Intersection Rush Hour"
+    difficulty: "easy"
+    description: >
+      Optimize signal timing for a single intersection with asymmetric
+      traffic demand. No coordination required — learn basic signal control.
+    max_steps: 60
+
+  - id: "corridor_green_wave"
+    name: "Corridor Green Wave with Emergency"
+    difficulty: "medium"
+    description: >
+      Control 2 intersections in a 3-intersection corridor. Coordinate
+      green wave timing, handle an emergency vehicle, and communicate
+      with the heuristic-controlled third intersection.
+    max_steps: 120
+
+  - id: "grid_incident"
+    name: "Grid Network Incident Response"
+    difficulty: "hard"
+    description: >
+      Control 2 intersections in a 2x2 grid. Handle demand shifts, road
+      capacity reduction, and 2 competing emergency vehicles. Coordinate
+      with 2 heuristic-controlled intersections via bidirectional messaging.
+    max_steps: 180
+
+endpoints:
+  reset: "/reset"
+  step: "/step"
+  state: "/state"
+  health: "/health"
+
