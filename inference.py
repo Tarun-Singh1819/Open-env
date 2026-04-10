@@ -353,7 +353,7 @@ def run_task(llm: OpenAI, env: SimpleEnvClient, task_id: str) -> float:
             sys.stdout.flush()
 
         # Compute score
-        score = max(0.0, min(1.0, sum(rewards) / max(len(rewards), 1)))
+        score = max(0.01, min(0.99, sum(rewards) / max(len(rewards), 1)))
         success = True
 
     except Exception as exc:
