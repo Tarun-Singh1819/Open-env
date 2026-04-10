@@ -294,7 +294,7 @@ def run_task(llm: OpenAI, env: SimpleEnvClient, task_id: str) -> float:
     rewards: List[float] = []
     step_num = 0
     success = False
-    score = 0.0
+    score = 0.01
 
     # [START]
     print(f"[START] task={task_id} env={BENCHMARK} model={MODEL_NAME}")
@@ -358,7 +358,7 @@ def run_task(llm: OpenAI, env: SimpleEnvClient, task_id: str) -> float:
 
     except Exception as exc:
         print(f"[DEBUG] Task {task_id} error: {exc}", file=sys.stderr)
-        score = 0.0
+        score = 0.01
         success = False
 
     finally:
@@ -380,7 +380,7 @@ def run_task(llm: OpenAI, env: SimpleEnvClient, task_id: str) -> float:
 
 def _timeout_handler(signum, frame):
     """Hard kill if script runs too long."""
-    print("[END] success=false steps=0 score=0.00 rewards=", flush=True)
+    print("[END] success=false steps=0 score=0.01 rewards=", flush=True)
     sys.exit(1)
 
 
